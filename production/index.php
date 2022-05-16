@@ -62,15 +62,20 @@ require 'cliente.php';
                                     <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
                                             <li><a href="index.php">Clientes</a></li>
+                                            <li><a href="listarUsuario.php">Usuarios</a></li>
+
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
                                             <li><a href="form_validation.php">Cadastrar Paciente</a></li>
+                                            
 
 
                                         </ul>
-                                    </li>
+
+                                        </ul>
+                                        </ul>
                                 </ul>
                             </div>
 
@@ -181,8 +186,9 @@ require 'cliente.php';
                                             <th>Cidade</th>
                                             <th>Estado</th>
                                             <th>Valor Contrato</th>
-                                            <th>excluir</th>
-                                            <th>editar</th>
+                                            <th>Excluir</th>
+                                            <th>Editar</th>
+                                            <th>Ativar</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -212,10 +218,12 @@ require 'cliente.php';
                                                 <td>
                                                     <?php echo $client['vlcontrato']; ?>
                                                 </td>
+                                                
                                                 <td>
-                                                    <form method="post" action="excluir_cliente.php">
+                                                    <form method="post">
                                                         <input type="hidden" name="id" value="<?php echo $client['id']; ?>" />
-                                                        <button class="btn btn-primary" type="submit">Excluir</button>
+                                                        <button class="btn btn-danger" type="submit" onclick="deleteAjax('<?php echo $client['id']; ?>')" id="delete" class="text-primary px-2 btn">Excluir</button>
+                                                        <a >
                                                     </form>
                                                 </td>
                                                 <td>
@@ -223,6 +231,14 @@ require 'cliente.php';
                                                         <input type="hidden" name="client" value="<?php echo htmlentities(serialize($client)); ?>" />
                                                         <button class="btn btn-primary" type="submit">Editar</button>
                                                     </form>
+                                                </td>
+                                                <td>
+                                                    <div class="col-md-5 col-sm-8">
+                                                    
+                                                        <button onclick="active('<?php echo $client['active']; ?>', <?php echo $client['id']; ?>)" type="checkbox" id="switch" <?php echo $client['active'] ? "checked" : "" ?> class="js-switch btn"></button>
+                                                    
+                                                     
+                                                    </div>
                                                 </td>
 
                                             </tr>
@@ -283,10 +299,41 @@ require 'cliente.php';
                 <!-- NProgress -->
                 <script src="../vendors/nprogress/nprogress.js"></script>
                 <!-- iCheck -->
-                <script src="../vendors/iCheck/icheck.min.js"></script>
+                <script src="../assets/vendor/vendors/iCheck/icheck.min.js"></script>
 
 
-
+                <script type="text/javascript">
+                    function deleteAjax(id){       
+                        $.ajax({ 
+                            type:'POST',
+                            url:'excluir_cliente.php',
+                            data: {id:id},
+                            success:function(data){
+                            $('#delete');
+                            window.location.reload()
+                            }
+                        });
+                    }
+                    function active(statusatual, id){
+                        var status= 1;
+                        if (statusatual == 1) {
+                        status = 0;
+                        }    
+                        $.ajax({ 
+                                type:'POST',
+                                url:'active.php',
+                                data: {status:status, id:id},
+                                success:function(data){
+                                    var datajson = JSON.parse(data);  
+                                    if (status == 1) {
+                                    $("#delete").prop("disabled", true); 
+                                    }
+                                    return;    
+                                    window.location.reload()
+                                }
+                                });
+    } 
+                </script>
 
                 <!-- Custom Theme Scripts -->
                 <script src="../build/js/custom.min.js"></script>

@@ -7,7 +7,7 @@
         {
             $this->pdo = (new Conexao())->conectar();
         } 
-        public function listar($nome,$cpf,$cidade,$estado,$email,$vlcontrato){
+        public function listar($nome,$cpf,$cidade,$estado,$email,$vlcontrato,$active){
                 // não existe, cadastrar
                 $sql = $this->pdo->prepare("SELECT nome,cpf,cidade,estado,email,vlcontrato FROM cliente");
 

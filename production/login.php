@@ -127,7 +127,7 @@ if (isset($_POST['login'])) {
               <p class="change_link">Already a member ?
                 <a href="#signin" class="to_register"> Log in </a>
               </p>
-
+ksdjlskjdfkjsdflkjd
               <div class="clearfix"></div>
               <br />
 

@@ -68,4 +68,12 @@ class Cliente
         $sql->execute();
         return true;
     }
+    public function active(
+        $id,
+        $active
+    ) {
+        $sql = $this->pdo->prepare("UPDATE cliente set active = '$active' WHERE id = $id");
+        $sql->execute();
+        return true;
+    }
 }
